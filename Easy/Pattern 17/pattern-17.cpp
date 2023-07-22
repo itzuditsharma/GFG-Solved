@@ -8,21 +8,27 @@ class Solution {
   public:
     void printTriangle(int n) {
         
+        
+        
         for(int i = 0; i < n; i++){
-            // Spaces
-            for(int j=1; j< n-i ;j++){
+            for(int j = 0; j < n-i-1;j++){
                 cout<<" ";
             }
+            
             char start = 'A';
-            for(int k = 1 ; k <= 2*i+1;k++){
-                    cout<<start;
-                if(k <= (i*2+1)/2){
+            
+            int breakpoint = (2*i+1)/2;
+            
+            for(int j=0;j<2*i+1; j++){
+                cout<<start;
+                if(j < breakpoint)
                     start++;
-                }else{
+                else
                     start--;
-                }
             }
+            
             cout<<endl;
+            
         }
     }
 };
