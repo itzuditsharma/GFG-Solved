@@ -22,34 +22,42 @@ struct Job
 };
 */
 
+static bool comp(const Job &a, const Job &b){
+    return a.profit > b.profit;
+}
+
 class Solution {
   public:
-    
-    static bool comp(const Job&a, const Job&b){
-        return a.profit > b.profit;
-    }
     // Function to find the maximum profit and the number of jobs done.
     vector<int> JobScheduling(Job jobs[], int n) {
-        int count = 0;
-        int maxprofit = 0;
-        sort(jobs, jobs+n, comp);
-        int hash[n+1];
-        for(int i = 0; i <= n; i++){
+        sort(jobs, jobs + n, comp);
+        int maxdeadline = jobs[0].deadline;
+        for(int i = 1; i < n; i++){
+            maxdeadline = max(maxdeadline, jobs[i].deadline);
+        }
+        
+        int hash[maxdeadline + 1];
+        for(int i = 0; i <=maxdeadline; i++){
             hash[i] = -1;
         }
         
+        int count = 0;
+        int jobprofit = 0;
+        
         for(int i = 0; i < n; i++){
             for(int j = jobs[i].deadline; j > 0; j--){
-                if(hash[j] == -1) {
+                if(hash[j] == -1){
                     hash[j] = jobs[i].deadline;
+                    jobprofit += jobs[i].profit;
                     count++;
-                    maxprofit += jobs[i].profit;
                     break;
                 }
             }
         }
-        return {count, maxprofit};
-    }
+        
+        return {count, jobprofit};
+        }
+    
 };
 
 //{ Driver Code Starts.
