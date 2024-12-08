@@ -13,20 +13,19 @@ class Solution {
         sort(dep.begin(), dep.end());
         int i = 0;
         int j = 0;
-        int count = 0;
-        int maxcount = 0;
-        
+        int platforms = 0;
+        int min_platforms = 0;
         while(i < arr.size()){
             if(arr[i] <= dep[j]){
-                count++;
+                platforms++;
                 i++;
             }else{
-                count--;
+                platforms--;
                 j++;
             }
-            maxcount = max(maxcount, count);
+            min_platforms = max(min_platforms, platforms);
         }
-        return maxcount;
+        return min_platforms;
     }
 };
 
