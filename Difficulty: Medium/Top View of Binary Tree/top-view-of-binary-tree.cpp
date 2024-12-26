@@ -99,26 +99,25 @@ class Solution {
     // Function to return a list of nodes visible from the top view
     // from left to right in Binary Tree.
     vector<int> topView(Node *root) {
-        vector<int> ans;
-        queue<pair<Node*, int>> q; //Node, line
-        map<int, int> mapp;  // line, Node->data
+        queue<pair<Node*, int>> q;   //Node, line
+        map<int, int> mapp;  // line, val
         q.push({root, 0});
+        vector<int> ans;
         
         while(!q.empty()){
-            auto it = q.front();
+            auto p = q.front();
             q.pop();
             
-            Node* node = it.first;
-            int line = it.second;
+            Node* node = p.first;
+            int line = p.second;
             
             if(mapp.find(line) == mapp.end()) mapp[line] = node -> data;
             
             if(node -> left) q.push({node -> left, line - 1});
             if(node -> right) q.push({node -> right, line + 1});
         }
-        
-        for(auto it : mapp){
-            ans.push_back(it.second);
+        for(auto i : mapp){
+            ans.push_back(i.second);
         }
         return ans;
     }
