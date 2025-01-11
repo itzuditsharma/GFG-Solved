@@ -98,37 +98,30 @@ struct Node {
         left = right = NULL;
     }
 };*/
-
-class NodeValue {
-  public:
-    int maxNode, minNode, maxSize;
-    
+class NodeValue{
+public:
+    int minNode, maxNode, maxSize;
     NodeValue(int minNode, int maxNode, int maxSize){
-        this -> maxNode = maxNode;
         this -> minNode = minNode;
+        this -> maxNode = maxNode;
         this -> maxSize = maxSize;
     }
 };
 
 class Solution{
-private:
+    public:
     NodeValue helper(Node* root){
         if(root == NULL) return NodeValue(INT_MAX, INT_MIN, 0);
         
         auto left = helper(root->left);
         auto right = helper(root -> right);
-        
+            
         if(left.maxNode < root -> data && right.minNode > root -> data){
-            return NodeValue(min(root->data, left.minNode), max(root ->data, right.maxNode), left.maxSize + right.maxSize + 1);
+            return NodeValue(min(root -> data, left.minNode), max(root-> data, right.maxNode), left.maxSize + right.maxSize + 1);
         }
         
         return NodeValue(INT_MIN, INT_MAX, max(left.maxSize, right.maxSize));
     }
-    
-    
-    public:
-    /*You are required to complete this method */
-    // Return the size of the largest sub-tree which is also a BST
     int largestBst(Node *root)
     {
     	return helper(root).maxSize;
