@@ -133,23 +133,22 @@ struct Node
 
 class Solution {
   public:
-  
-    void helper(Node* root, vector<int> &path, vector<vector<int>> &ans){
-        if(root == NULL) 
-        
-        path.push_back(root -> data);
-        if(root -> left == NULL && root -> right == NULL){
+    void helper(Node* root, vector<vector<int>> &ans, vector<int> &path){
+        if(root == NULL) return;
+        path.push_back(root->data);
+        if(root -> left == NULL && root ->right == NULL){
             ans.push_back(path);
-        } 
-        if(root->left)helper(root -> left, path, ans);
-        if(root->right)helper(root -> right, path, ans);
+        }
+        if(root -> left) helper(root -> left, ans, path);
+        if(root -> right) helper(root -> right, ans, path);
+        
         path.pop_back();
     }
   
     vector<vector<int>> Paths(Node* root) {
         vector<vector<int>> ans;
         vector<int> path;
-        helper(root, path, ans);
+        helper(root, ans, path);
         return ans;
     }
 };
