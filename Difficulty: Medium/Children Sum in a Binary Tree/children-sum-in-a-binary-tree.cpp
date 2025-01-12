@@ -105,20 +105,36 @@ class Solution{
     public:
     //Function to check whether all nodes of a tree have the value 
     //equal to the sum of their child nodes.
+    bool isLeaf(Node* node){
+        if(!node -> left && !node -> right) return true;
+        else return false;
+    }
+        
+    
     int isSumProperty(Node *root)
     {
-        if(root == NULL || (root -> left == NULL && root -> right == NULL)){
-            return 1;
-        }
+        queue<Node*>q;
+        q.push(root);
         
-        int lsum = (root -> left) ? (root -> left -> data) : 0;
-        int rsum = (root -> right) ? (root -> right -> data) : 0;
-        
-        if(root -> data == lsum + rsum){
-            return isSumProperty(root->left) && isSumProperty(root->right);
-        }else{
-            return 0;
+        while(!q.empty()){
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                Node* node = q.front();
+                q.pop();
+                
+                int lsum = 0;
+                int rsum = 0;
+                
+                if(!isLeaf(node)){
+                    if(node-> left) lsum = node -> left -> data;
+                    if(node -> right) rsum = node -> right -> data;
+                    if(lsum + rsum != node -> data) return 0;
+                }
+                if(node -> left ) q.push(node -> left);
+                if(node -> right ) q.push(node -> right);
+            }
         }
+        return 1;
     }
 };
 
