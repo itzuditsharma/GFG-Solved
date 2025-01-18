@@ -11,11 +11,12 @@ public:
     vector<vector<string>> findSequences(string beginWord, string endWord, vector<string>& wordList) {
         unordered_set<string> sett(wordList.begin(), wordList.end());
         vector<vector<string>> ans;
-        queue<vector<string>> q;
+        queue<vector<string>>q; 
+        int level = 0;
         q.push({beginWord});
         vector<string> usedInLevel;
         usedInLevel.push_back(beginWord);
-        int level = 0;
+        sett.erase(beginWord);
         
         while(!q.empty()){
             vector<string> vec = q.front();
@@ -27,9 +28,11 @@ public:
                     sett.erase(it);
                 }
                 usedInLevel.clear();
-            }
+            }   
+            
             
             string word = vec.back();
+            
             if(word == endWord){
                 if(ans.size() == 0){
                     ans.push_back(vec);
@@ -54,7 +57,6 @@ public:
                 word[i] = original;
             }
         }
-        
         return ans;
     }
 };
