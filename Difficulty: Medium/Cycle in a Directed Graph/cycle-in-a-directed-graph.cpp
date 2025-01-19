@@ -6,36 +6,35 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    
-    bool dfs(int node, vector<int>&vis, vector<int> pathVis, vector<vector<int>> adj){
-        vis[node] = 1;
-        pathVis[node] = 1;
-        
-        for(auto it : adj[node]){
-            if(!vis[it]){
-                if(dfs(it, vis, pathVis, adj) == true) return true;
-            }else{
-                if(pathVis[it] != 0){
-                    return true;
-                }
-            }
-        }
-        pathVis[it]
-        return false;
-    }
-    
+    TOPO Sort KAHN;
     bool isCyclic(int V, vector<vector<int>> adj) {
         int n = adj.size();
-        vector<int> vis(n, 0);
-        vector<int> pathVis(n, 0);
-        
-        for(int i = 0; i < n; i++){
-            if(!vis[i]){
-                if(dfs(i, vis, pathVis, adj) == true) return true;
+        int indegree[n] = {0};
+        for(int i = 0;  i < n; i++){
+            for(auto it : adj[i]){
+                indegree[it]++;
             }
         }
         
-        return false;
+        queue<int>q;
+        for(int i = 0; i < n; i++){
+            if(indegree[i] == 0) q.push(i);
+        }
+        vector<int> topo;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto it : adj[node]){
+                indegree[it]--;
+                
+                
+                if(indegree[it] == 0) q.push(it);
+            }
+        }
+        
+        if(topo.size() == n) return false;
+        return true;
     }
 };
 
