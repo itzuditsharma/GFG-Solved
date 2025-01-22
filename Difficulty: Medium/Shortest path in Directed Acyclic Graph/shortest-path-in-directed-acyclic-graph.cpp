@@ -9,7 +9,8 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
-    void toposort(int node, int vis[], vector<pair<int, int>> adj[], stack<int> &st){
+    
+    void toposort(int node, vector<int> &vis, vector<pair<int, int>> adj[], stack <int> &st){
         vis[node] = 1;
         
         for(auto it : adj[node]){
@@ -29,11 +30,11 @@ class Solution {
             int v = edges[i][1];
             int wt = edges[i][2];
             
-            adj[u].push_back({v,wt});
+            adj[u].push_back({v, wt});
         }
         
-        stack<int> st;
-        int vis[V] = {0};
+        vector<int> vis(V, 0);
+        stack <int> st;
         
         for(int i = 0; i < V; i++){
             if(!vis[i]){
@@ -43,20 +44,19 @@ class Solution {
         
         vector<int> dist(V, 1e9);
         dist[0] = 0;
-        
         while(!st.empty()){
             int node = st.top();
             st.pop();
             
-            for(auto it: adj[node]){
+            for(auto it : adj[node]){
                 int v = it.first;
                 int wt = it.second;
-                
                 if(dist[node] + wt < dist[v]){
-                    dist[v] = dist[node]+wt;
+                    dist[v] = dist[node] + wt;
                 }
             }
         }
+        
         vector<int> ans;
         for(int i = 0; i < V; i++){
             if(dist[i] != 1e9){
@@ -65,7 +65,6 @@ class Solution {
                 ans.push_back(-1);
             }
         }
-        
         return ans;
     }
 };
