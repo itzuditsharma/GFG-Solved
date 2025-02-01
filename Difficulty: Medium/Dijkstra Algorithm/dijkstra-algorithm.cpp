@@ -11,46 +11,35 @@ class Solution {
     // from the source vertex src.
     vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
         int n = adj.size();
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        pq.push({0, src});
+        // distance, node 
         
         vector<int> dist(n, 1e9);
-        vector<int> parent(n);
-        for(int i = 0; i < n; i++){
-            parent[i] = i;
-        }
-        
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         dist[src] = 0;
-        pq.push({0, src});
         
         while(!pq.empty()){
-            auto it = pq.top();
-            int node = it.second;
-            int dis = it.first;
+            int dis = pq.top().first;
+            int node = pq.top().second;
             pq.pop();
             
             for(auto it : adj[node]){
-                int adjNode = it.first;
+                int v = it.first;
                 int edw = it.second;
                 
-                if(dis + edw < dist[adjNode]){
-                    dist[adjNode] = dis + edw;
-                    pq.push({dis + edw, adjNode});
+                if(dis + edw < dist[v]){
+                    dist[v] = dis + edw;
+                    pq.push({dis+edw, v});
                 }
             }
         }
-        return dist;
-        // if(dist[n] == 1e9) return {-1};
-        // vector<int> path;
-        // int node = n;
-        // while(parent[node] != node){
-        //     path.push_back(node);
-        //     node = parent[node];
-        // }
-        
-        // path.push_back(src);
-        // reverse(path.begin(), path.end());
-        // return path;
-        
+        vector<int> ans(n, -1);
+        for(int i = 0; i < n; i++){
+            if(dist[i] != 1e9){
+                ans[i] = dist[i];
+            }
+        }
+        return ans;
     }
 };
 
