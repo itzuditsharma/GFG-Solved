@@ -7,40 +7,36 @@ using namespace std;
 class Solution {
   public:
     // Function to return list containing vertices in Topological order.
+    void dfs(int node, vector<int>&vis, stack<int>&st, vector<vector<int>>& adj){
+        vis[node] = 1;
+        
+        for(auto it : adj[node]){
+            if(!vis[it]){
+                dfs(it, vis, st, adj);
+            }
+        }
+        
+        st.push(node);
+    }
+    
     vector<int> topologicalSort(vector<vector<int>>& adj) {
-        // KAHN's algo BFS 
         int n = adj.size();
-        queue<int> q;
-        int indegree[n] = {0};
+        stack<int> st;
+        vector<int> vis(n);
         for(int i = 0; i < n; i++){
-            for(auto it : adj[i]){
-                indegree[it]++;
+            if(!vis[i]){
+                dfs(i, vis, st, adj);
             }
         }
         
-        for(int i=0; i < n; i++){
-            if(indegree[i] == 0){
-                q.push(i);
-            }
+        vector<int> ans;
+        
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
         }
         
-        vector<int> topo;
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            topo.push_back(node);
-            
-            for(auto it: adj[node]){
-                indegree[it]--;
-                
-                if(indegree[it] == 0){
-                    q.push(it);
-                }
-            }
-            
-        }
-        
-        return topo;
+        return ans;
     }
 };
 
