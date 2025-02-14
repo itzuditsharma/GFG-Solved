@@ -37,8 +37,24 @@ class Solution {
         for(int i = 0; i < n; i++) totalsum += arr[i];
         if(totalsum - d < 0 || ((totalsum - d) %2 == 1)) return 0;
         int s2 = (totalsum-d)/2;
-        vector<vector<int>> dp(n, vector<int>(s2+1, -1));
-        return f(n-1, s2, arr, dp);
+        vector<vector<int>> dp(n, vector<int>(s2+1, 0));
+        int target = s2;
+        if (arr[0] == 0) dp[0][0] = 2;  // Two subsets: {} and {0}
+        else dp[0][0] = 1;  // Only the empty subset {}
+        
+        
+        if (arr[0] <= target && arr[0] != 0) dp[0][arr[0]] = 1;
+        
+        for(int i = 1; i < n; i++){
+            for(int tar = 0; tar <=target; tar++){
+                int not_take = dp[i-1][tar];
+                int take = 0;
+                if(arr[i] <= tar) take = dp[i -1][tar - arr[i]];
+                
+                dp[i][tar] = take + not_take;
+            }
+        }
+        return dp[n-1][target];
     }
 };
 
