@@ -8,53 +8,38 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int f(int ind, int sum, vector<int>& arr, vector<vector<int>> &dp){
+    
+    int f(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
         if(ind == 0){
-            if(sum == 0 && arr[0] == 0) return 2;
-            if(sum == 0 || sum == arr[0]) return 1;
+            if(target == 0 && arr[0] == 0) return 2;
+            if(target == 0 || arr[0] == target) return 1;
             return 0;
         }
         
+        if(dp[ind][target] != -1) return dp[ind][target];
         
-        if(dp[ind][sum] != -1) return dp[ind][sum];
-        
-        int not_take = f(ind - 1, sum, arr, dp);
+        int nottake = f(ind -1, target, arr, dp);
         int take = 0;
-        if(sum >= arr[ind]) take = f(ind - 1, sum - arr[ind], arr, dp);
+        if(arr[ind] <= target) take = f(ind -1, target -arr[ind], arr, dp);
         
-        return dp[ind][sum] = take + not_take;
+        return dp[ind][target] = take + nottake;
     }
-
+  
     int countPartitions(vector<int>& arr, int d) {
-        // s1 - s2 = d;
-        // totalsum;
+        // s1 - s2 =d
+        // totalsum -s2 -s2 = d
+        // totalsum -d = 2s2
+        // s2 = (totalsum - d) / 2
         
-        // totalsum - s2 -s2 = d;
-        // totalsum - d = 2s2
-        // s2 = (totalsum - d )/ 2
         int n = arr.size();
         int totalsum = 0;
         for(int i = 0; i < n; i++) totalsum += arr[i];
-        if(totalsum - d < 0 || ((totalsum - d) %2 == 1)) return 0;
-        int s2 = (totalsum-d)/2;
-        vector<vector<int>> dp(n, vector<int>(s2+1, 0));
-        int target = s2;
-        if (arr[0] == 0) dp[0][0] = 2;  // Two subsets: {} and {0}
-        else dp[0][0] = 1;  // Only the empty subset {}
+        if(totalsum - d < 0 || (totalsum - d) % 2 ==1) return 0;
+        int s2 = (totalsum - d) / 2;
         
+        vector<vector<int>> dp(n, vector<int>(s2+1, -1));
+        return f(n-1, s2, arr, dp);
         
-        if (arr[0] <= target && arr[0] != 0) dp[0][arr[0]] = 1;
-        
-        for(int i = 1; i < n; i++){
-            for(int tar = 0; tar <=target; tar++){
-                int not_take = dp[i-1][tar];
-                int take = 0;
-                if(arr[i] <= tar) take = dp[i -1][tar - arr[i]];
-                
-                dp[i][tar] = take + not_take;
-            }
-        }
-        return dp[n-1][target];
     }
 };
 
