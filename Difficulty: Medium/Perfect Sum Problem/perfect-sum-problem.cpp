@@ -6,27 +6,26 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int f(int ind, int target, vector<int>& nums,vector<vector<int>> &dp){
-        if(ind==0)
-        {
-            if(target==0 && nums[0]==0) return 2;
-            if(nums[0]==target || target==0) return 1;
+    int f(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
+        if(ind == 0){
+            if(target == 0 && arr[0] == 0) return 2;
+            if(target == 0 || arr[0] == target) return 1;
             return 0;
         }
-
-        if(dp[ind][target] != -1) return dp[ind][target];
-
-        int not_take = f(ind - 1, target, nums,dp);
+        
+        if(dp[ind][target]!=-1) return dp[ind][target];
+        
+        int nottake = f(ind -1, target, arr, dp);
         int take = 0;
-        if(target >= nums[ind]) take = f(ind -1, target - nums[ind], nums, dp);
-
-        return dp[ind][target] = not_take + take;
+        if(target >= arr[ind]) take = f(ind -1, target - arr[ind], arr, dp);
+        
+        return dp[ind][target] = take + nottake;
     }
   
-    int perfectSum(vector<int>& nums, int target) {
-        int n = nums.size();
+    int perfectSum(vector<int>& arr, int target) {
+        int n = arr.size();
         vector<vector<int>> dp(n, vector<int>(target+1, -1));
-        return f(n-1, target, nums, dp);
+        return f(n-1, target, arr, dp);
     }
 };
 
