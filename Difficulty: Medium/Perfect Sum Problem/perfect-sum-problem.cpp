@@ -6,6 +6,7 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
+    
     int f(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
         if(ind == 0){
             if(target == 0 && arr[0] == 0) return 2;
@@ -13,13 +14,14 @@ class Solution {
             return 0;
         }
         
-        if(dp[ind][target]!=-1) return dp[ind][target];
+        if(dp[ind][target] != -1) return dp[ind][target];
         
-        int nottake = f(ind -1, target, arr, dp);
+        int nottake = f(ind - 1, target, arr, dp);
         int take = 0;
-        if(target >= arr[ind]) take = f(ind -1, target - arr[ind], arr, dp);
+        if(arr[ind] <= target) take = f(ind - 1, target - arr[ind], arr, dp);
         
-        return dp[ind][target] = take + nottake;
+        
+        return dp[ind][target] = take+nottake;
     }
   
     int perfectSum(vector<int>& arr, int target) {
