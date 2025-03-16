@@ -4,32 +4,31 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    
-    int f(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
-        if(ind == 0){
+    int f(int i, int target, vector<int>& arr, vector<vector<int>> &dp){
+        if(i == 0){
             if(target == 0 && arr[0] == 0) return 2;
             if(target == 0 || arr[0] == target) return 1;
             return 0;
         }
+        if(dp[i][target] != -1) return dp[i][target];
         
-        if(dp[ind][target] != -1) return dp[ind][target];
-        
-        int nottake = f(ind - 1, target, arr, dp);
+        int nottake = f(i-1, target, arr, dp);
         int take = 0;
-        if(arr[ind] <= target) take = f(ind - 1, target - arr[ind], arr, dp);
+        if(target >= arr[i]) take = f(i-1, target - arr[i], arr, dp);
         
-        
-        return dp[ind][target] = take+nottake;
+        return dp[i][target] = take + nottake;
     }
   
     int perfectSum(vector<int>& arr, int target) {
         int n = arr.size();
-        vector<vector<int>> dp(n, vector<int>(target+1, -1));
+        vector<vector<int>> dp(n, vector<int>(target + 1, -1));
         return f(n-1, target, arr, dp);
     }
 };
+
 
 //{ Driver Code Starts.
 
