@@ -6,32 +6,34 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 
 class Solution {
   public:
-    int f(int ind, int n, vector<int>&price, vector<vector<int>> &dp){
-        if(ind == 0){
-            return n * price[0];
+    int f(int i, int n, vector<int> &price, vector<vector<int>> &dp){
+        if(i == 0){
+            return n * price[i];
         }
         
         
-        if(dp[ind][n] != -1) return dp[ind][n];
+        if(dp[i][n] != -1) return dp[i][n];
         
-        int notpick = 0 + f(ind -1, n, price, dp);
-        int pick = INT_MIN;
-        int rod_length = ind + 1;
-        if(rod_length <= n) pick = price[ind] + f(ind, n - rod_length, price, dp);
+        int nottake = f(i-1, n, price, dp);
+        int take = INT_MIN;
+        int rodlen = i+1;
+        if(rodlen <= n) take = price[i] + f(i, n-rodlen, price, dp);
         
-        return dp[ind][n] = max(pick, notpick);
+        return dp[i][n] = max(take, nottake);
     }
   
     int cutRod(vector<int> &price) {
         int n = price.size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        vector<vector<int>> dp(n, vector<int>(n+1, -1));
         return f(n-1, n, price, dp);
     }
 };
+
 
 //{ Driver Code Starts.
 
