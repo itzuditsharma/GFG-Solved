@@ -6,32 +6,34 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 
 class Solution {
   public:
-    int f(int ind, int max_wt, vector<int>& val, vector<int>& wt, vector<vector<int>> &dp){
+    
+    int f(int i, int capacity, vector<int>& val, vector<int>& wt, vector<vector<int>> &dp){
+        // Base cases 4
         
-        if(ind == 0){
-            int x = int(max_wt / wt[0]);
-            return x * val[0];
+        if(i == 0) {
+            int number = int(capacity / wt[i]);
+            return number * val[i];
         }
         
-        if(dp[ind][max_wt] != -1) return dp[ind][max_wt];
-        
-        int notpick = 0 + f(ind - 1, max_wt, val, wt, dp);
-        int pick = INT_MIN;
-        if(wt[ind] <= max_wt) pick = val[ind] + f(ind, max_wt - wt[ind], val, wt, dp);
-        
-        return dp[ind][max_wt] = max(pick, notpick);
+        if(dp[i][capacity] != -1) return dp[i][capacity];
+        int nottake = f(i-1, capacity, val, wt, dp);
+        int take = INT_MIN;
+        if(wt[i] <= capacity) take = val[i] + f(i, capacity - wt[i], val, wt, dp);
+        return dp[i][capacity] = max(take, nottake);
     }
   
     int knapSack(vector<int>& val, vector<int>& wt, int capacity) {
         int n = wt.size();
-        vector<vector<int>> dp(n, vector<int>(capacity+1, -1));
+        vector<vector<int>> dp(n, vector<int>(capacity + 1, -1));
         return f(n-1, capacity, val, wt, dp);
     }
 };
+
 
 //{ Driver Code Starts.
 
