@@ -10,29 +10,28 @@ class Solution {
     vector<int> longestIncreasingSubsequence(int n, vector<int>& nums) {
         vector<int> dp(n, 1);
         vector<int> hash(n);
-        for(int i = 0; i < n; i++){
-            hash[i] = i;
+        int maxlen = 0;
+        int last_index = 0;
+        for(int i = 0; i < n; i++) hash[i] = i;
+        
+        for(int ind = 0; ind < n; ind++){
+            for(int prev = 0; prev < ind; prev++){
+                if(nums[prev] < nums[ind] && 1 + dp[prev] > dp[ind]){
+                    dp[ind] = 1 + dp[prev];
+                    hash[ind] = prev;
+                } 
+            }
+            if(dp[ind] > maxlen){
+                maxlen = dp[ind];
+                last_index = ind;
+            }
         }
         
-        int maxi = 1;
-        int lastIndex = 0;
-        for(int i = 0; i < n; i++){
-            for(int prev = 0; prev < i; prev++){
-                if(nums[prev] < nums[i] && 1 + dp[prev] > dp[i]){
-                    dp[i] = 1+dp[prev];
-                    hash[i] = prev;
-                }
-            }
-            if(dp[i] > maxi){
-                maxi = dp[i];
-                lastIndex = i;
-            }
-        }
         vector<int> temp;
-        temp.push_back(nums[lastIndex]);
-        while(hash[lastIndex] != lastIndex){
-            lastIndex = hash[lastIndex];
-            temp.push_back(nums[lastIndex]);
+        temp.push_back(nums[last_index]);
+        while(hash[last_index] != last_index){
+            last_index = hash[last_index];
+            temp.push_back(nums[last_index]);
         }
         reverse(temp.begin(), temp.end());
         return temp;
