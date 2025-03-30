@@ -28,31 +28,28 @@ class Solution {
   public:
     int LongestBitonicSequence(int n, vector<int> &nums) {
         vector<int> dp(n, 1);
-        
         for(int i = 0; i < n; i++){
             for(int prev = 0; prev < i; prev++){
-                if(nums[i] > nums[prev] && dp[i] < dp[prev]+1){
-                    dp[i] = dp[prev]+1;
+                if(nums[i] > nums[prev] && dp[prev] + 1 > dp[i]){
+                    dp[i] = 1 + dp[prev];
                 }
             }
         }
-        
         vector<int> dp2(n, 1);
-        
         for(int i = n-1; i >= 0; i--){
             for(int prev = n-1; prev > i; prev--){
-                if(nums[i] > nums[prev] && dp2[i] < dp2[prev]+1){
-                    dp2[i] = dp2[prev]+1;
+                if(nums[i] > nums[prev] && dp2[prev] + 1 > dp2[i]){
+                    dp2[i] = 1 + dp2[prev];
                 }
             }
         }
-        int maxi = 0;
+        int maxlen = 0;
         for(int i = 0; i < n; i++){
             if(dp[i] > 1 && dp2[i] > 1){
-                maxi = max(maxi, dp[i]+dp2[i] - 1);
+                maxlen = max(maxlen, dp[i] + dp2[i] - 1);
             }
         }
-        return maxi;
+        return maxlen;
     }
 };
 
