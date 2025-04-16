@@ -6,15 +6,16 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function Template for C++
 class Solution {
   public:
-    
-    void toposort(int node, vector<int> &vis, vector<pair<int, int>> adj[], stack <int> &st){
+    void toposort(int node, vector<int> &vis, vector<vector<pair<int, int>>> &adj, stack<int> &st){
         vis[node] = 1;
         
         for(auto it : adj[node]){
             int v = it.first;
+            
             if(!vis[v]){
                 toposort(v, vis, adj, st);
             }
@@ -24,26 +25,23 @@ class Solution {
     }
   
     vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
-        vector<pair<int, int>> adj[V];
-        for(int i = 0; i < E; i++){
-            int u = edges[i][0];
-            int v = edges[i][1];
-            int wt = edges[i][2];
-            
-            adj[u].push_back({v, wt});
+        int n = V;
+        vector<vector<pair<int, int>>> adj(n);
+        for(auto it : edges){
+            adj[it[0]].push_back({it[1], it[2]});
         }
         
-        vector<int> vis(V, 0);
-        stack <int> st;
-        
-        for(int i = 0; i < V; i++){
+        vector<int> vis(n, 0);
+        stack<int> st;
+        for(int i = 0; i < n; i++){
             if(!vis[i]){
                 toposort(i, vis, adj, st);
             }
         }
         
-        vector<int> dist(V, 1e9);
+        vector<int> dist(n, 1e9);
         dist[0] = 0;
+        
         while(!st.empty()){
             int node = st.top();
             st.pop();
@@ -51,23 +49,23 @@ class Solution {
             for(auto it : adj[node]){
                 int v = it.first;
                 int wt = it.second;
+                
                 if(dist[node] + wt < dist[v]){
                     dist[v] = dist[node] + wt;
                 }
             }
         }
-        
-        vector<int> ans;
-        for(int i = 0; i < V; i++){
+        vector<int> ans(n, -1);
+        for(int i = 0; i < n; i++){
             if(dist[i] != 1e9){
-                ans.push_back(dist[i]);
-            }else{
-                ans.push_back(-1);
+                ans[i] = dist[i];
             }
         }
+        
         return ans;
     }
 };
+
 
 
 //{ Driver Code Starts.
