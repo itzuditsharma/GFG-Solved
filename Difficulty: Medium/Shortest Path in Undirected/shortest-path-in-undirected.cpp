@@ -8,6 +8,7 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to find the shortest path from source to all other nodes
@@ -15,7 +16,6 @@ class Solution {
         int n = adj.size();
         queue<int> q;
         q.push(src);
-        
         vector<int> dist(n, 1e9);
         dist[src] = 0;
         
@@ -25,24 +25,24 @@ class Solution {
             
             for(auto it : adj[node]){
                 if(dist[node] + 1 < dist[it]){
-                    dist[it] = dist[node]+1;
+                    dist[it] = dist[node] + 1;
                     q.push(it);
                 }
             }
         }
         
-        vector<int> ans(n, -1);
-        for(int i = 0; i < dist.size(); i++){
+        vector<int> ans(n);
+        for(int i = 0; i < n; i++){
             if(dist[i] != 1e9){
                 ans[i] = dist[i];
             }else{
                 ans[i] = -1;
             }
         }
-        
         return ans;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
