@@ -67,6 +67,7 @@ int main() {
         int ans = ob.minDifference(arr);
 
         cout << ans << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
