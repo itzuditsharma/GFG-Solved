@@ -6,34 +6,28 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function template for C++
 
 class Solution {
   public:
-    void shortestDistance(vector<vector<int>>& mat) {
-        int n = mat.size();
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(mat[i][j] == -1) mat[i][j] = 1e9;
-                if(i == j) mat[i][j] = 0;
-            }
-        }
+    void floydWarshall(vector<vector<int>> &matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
         
         for(int k = 0; k < n; k++){
             for(int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++){
-                    mat[i][j] = min(mat[i][j], mat[i][k] + mat[k][j]);
+                for(int j = 0; j < m; j++){
+                    if(matrix[i][k] != 100000000 && matrix[k][j] != 100000000) {
+                    matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+                    }
                 }
             }
         }
         
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(mat[i][j] == 1e9) mat[i][j] = -1;
-            }
-        }
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
@@ -49,7 +43,7 @@ int main() {
             }
         }
         Solution obj;
-        obj.shortestDistance(matrix);
+        obj.floydWarshall(matrix);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 cout << matrix[i][j] << " ";
