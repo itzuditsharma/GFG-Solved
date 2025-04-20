@@ -9,29 +9,33 @@ using namespace std;
 class Solution {
   public:
     vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
+        // Code here
         vector<vector<pair<int, int>>> adj(V);
         int n = adj.size();
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         for(auto it : edges){
             adj[it[0]].push_back({it[1], it[2]});
+            a
         }
-        
-        pq.push({0, src});
-        vector<int> dist(n, 1e9);
+        vector<int>dist(n, 1e9);
         dist[src] = 0;
+        priority_queue<pair<int, int>,
+        vector<pair<int, int>>,
+        greater<pair<int,int>>> pq;
+        
+        pq.push({0,src}); //Dist, node
         
         while(!pq.empty()){
+            int dis = pq.top().first;
             int node = pq.top().second;
-            int distance = pq.top().first;
             pq.pop();
             
             for(auto it : adj[node]){
-                int v = it.first;
+                int adjNode = it.first;
                 int edw = it.second;
                 
-                if(dist[v] > distance + edw){
-                    dist[v] = distance + edw;
-                    pq.push({distance + edw, v});
+                if(edw + dis < dist[adjNode]){
+                    dist[adjNode] = edw + dis;
+                    pq.push({edw+dis, adjNode});
                 }
             }
         }
@@ -43,6 +47,7 @@ class Solution {
         }
         return ans;
     }
+    
 };
 
 
