@@ -92,6 +92,7 @@ Node* search(Node* root, int key) {
 
 
 // } Driver Code Ends
+
 /*The structure of Node
 
 struct Node {
@@ -112,6 +113,7 @@ class Solution {
     int inOrderSuccessor(Node *root, Node *x) {
         Node* curr = root;
         int suc = -1;
+        
         while(curr){
             if(curr -> data > x -> data){
                 suc = curr -> data;
@@ -123,6 +125,7 @@ class Solution {
         return suc;
     }
 };
+
 
 //{ Driver Code Starts.
 
