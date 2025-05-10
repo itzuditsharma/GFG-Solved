@@ -86,6 +86,7 @@ Node* buildTree(string str) {
 
 
 // } Driver Code Ends
+
 /* Tree node structure  used in the program
 
 struct Node {
@@ -99,34 +100,35 @@ struct Node {
     }
 };*/
 class NodeValue{
-public:
-    int minNode, maxNode, maxSize;
-    NodeValue(int minNode, int maxNode, int maxSize){
-        this -> minNode = minNode;
-        this -> maxNode = maxNode;
-        this -> maxSize = maxSize;
+    public:
+    
+    int minnode, maxnode, maxsize;
+    NodeValue(int minnode, int maxnode, int maxsize){
+        this -> minnode = minnode;
+        this -> maxnode = maxnode;
+        this -> maxsize = maxsize;
     }
 };
 
-class Solution{
-    public:
-    NodeValue helper(Node* root){
+class Solution {
+  public:
+    NodeValue helper(Node *root){
         if(root == NULL) return NodeValue(INT_MAX, INT_MIN, 0);
         
-        auto left = helper(root->left);
+        auto left = helper(root -> left);
         auto right = helper(root -> right);
-            
-        if(left.maxNode < root -> data && right.minNode > root -> data){
-            return NodeValue(min(root -> data, left.minNode), max(root-> data, right.maxNode), left.maxSize + right.maxSize + 1);
-        }
         
-        return NodeValue(INT_MIN, INT_MAX, max(left.maxSize, right.maxSize));
+        if(root -> data > left.maxnode && root -> data < right.minnode){
+            return NodeValue(min(root -> data, left.minnode), max(root->data, right.maxnode), left.maxsize + right.maxsize + 1);
+        }
+        return NodeValue(INT_MIN, INT_MAX, max(left.maxsize, right.maxsize));
     }
-    int largestBst(Node *root)
-    {
-    	return helper(root).maxSize;
+    
+    int largestBst(Node *root) {
+        return helper(root).maxsize;
     }
 };
+
 
 //{ Driver Code Starts.
 
