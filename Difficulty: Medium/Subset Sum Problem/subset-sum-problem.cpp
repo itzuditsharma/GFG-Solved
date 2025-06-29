@@ -1,64 +1,24 @@
-//{ Driver Code Starts
-
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-
-// User function template for C++
-
 class Solution {
   public:
-    bool f(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
-        if(target == 0) return true; 
-        if(ind == 0) return arr[0] == target;
+    bool f(int ind, vector<int>& arr, vector<vector<int>> &dp, int target){
+        if(target == 0) return true;
+        if(ind == 0) return target == arr[0];
         
         if(dp[ind][target] != -1) return dp[ind][target];
         
-        bool nottake = f(ind-1, target, arr, dp);
-        bool take = false;
-        if(target >= arr[ind])take = f(ind-1, target - arr[ind], arr, dp);
+        int notTake = f(ind - 1, arr, dp, target);
+        int take = false;
+        if(target >= arr[ind]){
+            take = f(ind-1, arr, dp, target - arr[ind]);
+        }
         
-        return dp[ind][target] = nottake | take;
+        return dp[ind][target] = take | notTake;
     }
   
     bool isSubsetSum(vector<int>& arr, int target) {
         int n = arr.size();
-        vector<vector<int>> dp(n, vector<int>(target+1, -1));
-        return f(n-1, target, arr, dp);
+        vector<vector<int>> dp(n, vector<int>(target + 1, -1));
+        return f(n-1, arr, dp, target);
+        
     }
 };
-
-
-//{ Driver Code Starts.
-
-int main() {
-
-    int t;
-    cin >> t;
-    cin.ignore();
-    while (t--) {
-        vector<int> arr;
-        string input;
-        getline(cin, input);
-        stringstream ss(input);
-        int number;
-        while (ss >> number) {
-            arr.push_back(number);
-        }
-        int sum;
-        cin >> sum;
-        cin.ignore();
-
-        Solution ob;
-        if (ob.isSubsetSum(arr, sum))
-            cout << "true" << endl;
-        else
-            cout << "false" << endl;
-        cout << "~" << endl;
-    }
-    return 0;
-}
-
-// } Driver Code Ends
