@@ -1,25 +1,24 @@
 from collections import defaultdict
 class Solution:
     def totalElements(self, arr):
-        # Code here
         n = len(arr)
-        mapp = defaultdict(int)
+        count = 0
+        
         l = 0
         r = 0
-        maxones = 0
+        
+        mapp = defaultdict(int)
         
         while r < n:
             mapp[arr[r]] += 1
-            
             while len(mapp) > 2:
                 mapp[arr[l]] -= 1
-                if mapp[arr[l]] == 0:
+                if(mapp[arr[l]] == 0):
                     del mapp[arr[l]]
                 l+=1
             
-            maxones = max(maxones, r-l+1)
+            count = max(count, r-l+1)
             r+=1
-            
-        return maxones
+        
+        return count
                 
-            
