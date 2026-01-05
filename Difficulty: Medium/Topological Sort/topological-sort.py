@@ -1,28 +1,29 @@
-from collections import deque
 class Solution:
+    def dfs(self, node, adjls, stack, vis):
+        vis[node] = 1
+        
+        for it in adjls[node]:
+            if vis[it] == 0:
+                self.dfs(it, adjls, stack, vis)
+        
+        stack.append(node)
+    
     def topoSort(self, V, edges):
-        adj = [[] for _ in range(V)]
-        for u, v in edges:
-            adj[u].append(v)
-            
-        indegree = [0] * V
+        adjls = [[] for _ in range(V)]
+        for u,v in edges:
+            adjls[u].append(v)
+        
+        stack = []
+        vis = [0] * V
+        
+        
+        ans = []
         for i in range(V):
-            for val in adj[i]:
-                indegree[val] += 1
-        q = deque()
+            if vis[i] == 0:
+                self.dfs(i, adjls, stack, vis)
         
-        for i in range(len(indegree)):
-            if indegree[i] == 0:
-                q.append(i)
+        while stack:
+            ans.append(stack.pop())
         
-        topo = []
+        return ans
         
-        while q:
-            node = q.popleft()
-            topo.append(node)
-            for it in adj[node]:
-                indegree[it] -= 1
-                if indegree[it] == 0:
-                    q.append(it)
-                    
-        return topo
