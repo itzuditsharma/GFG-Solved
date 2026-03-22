@@ -9,22 +9,20 @@ class Solution:
             else:
                 if it != parent:
                     return True
-                    
+        
         return False
     
 	def isCycle(self, V, edges):
-		vis = [0 for _ in range(V)]
+		vis = [0] * V
 		adjls = [[] for _ in range(V)]
 		
 		for u,v in edges:
 		    adjls[u].append(v)
 		    adjls[v].append(u)
-		    
-		
-		for i in range(V):
-		    if vis[i] == 0:
-		        if self.dfs(i, -1, adjls, vis) == True:
-		            return True
-		return False
-		        
-		
+		   
+        for i in range(V):
+            if vis[i] == 0:
+                if self.dfs(i, -1, adjls, vis) == True:
+                    return True
+        
+        return False
